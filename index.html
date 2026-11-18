@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My IoT Page</title>
+<title>Harper's Smart Doorbell</title>
 <style>
   /* ---------- YOU CAN CHANGE ALL OF THIS ---------- */
-  body { font-family: Arial, sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; background: #f5f5f5; color: #222; }
-  h1   { margin-bottom: 4px; }
+  body { font-family: Arial, sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; background: #eef4ff; color: #222; }
+  h1   { margin-bottom: 4px; color: #2a4d9b; }
   .card { background: #fff; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
-  .status { font-size: 1.6rem; font-weight: bold; margin: 8px 0; }
+  .status { font-size: 2rem; font-weight: bold; margin: 8px 0; }
   .small { color: #666; font-size: .9rem; }
   button { font-size: 1rem; padding: 10px 18px; margin: 4px; border: 0; border-radius: 8px; cursor: pointer; color: #fff; }
   .red   { background: #d33; }
@@ -23,8 +23,9 @@
 </head>
 <body>
 
-<h1>My IoT Page</h1>
+<h1>Harper's Smart Doorbell</h1>
 <p class="small">Adafruit IO user: <span id="whoami">?</span> &nbsp;|&nbsp; <a href="#" id="changeKey">change key</a></p>
+<p class="small">Click anywhere on this page once to turn on the sound.</p>
 
 <!-- ================= PROJECT A : Arduino -> Website ================= -->
 <div class="card" id="cardA">
@@ -52,7 +53,7 @@
 /* =====================================================================
    SETTINGS - change these two lines
    ===================================================================== */
-const IO_USERNAME   = "your_adafruit_io_username";   // <-- your Adafruit IO username
+const IO_USERNAME   = "HarperBri";                    // <-- your Adafruit IO username
 const DOORBELL_FEED = "doorbell";                     // Project A feed (Arduino -> web)
 const LAMP_FEED     = "lamp";                         // Project B feed (web -> Arduino)
 const POLL_MS       = 2000;                           // how often to check the doorbell feed (ms). Keep >= 2000.
@@ -87,6 +88,25 @@ function showError(msg) {
   console.error(msg);
 }
 
+/* ---------- SOUND: a short beep when a new press comes in ---------- */
+let audioCtx = null;
+document.addEventListener("click", () => {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+  }
+});
+function beep() {
+  if (!audioCtx) return;                 // sound not turned on yet
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.frequency.value = 880;             // pitch of the beep
+  gain.gain.value = 0.2;                 // volume
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.25); // beep length in seconds
+}
+
 /* =====================================================================
    PROJECT A - read the doorbell feed every POLL_MS milliseconds
    ===================================================================== */
@@ -117,11 +137,13 @@ async function checkDoorbell() {
 }
 
 function showDoorbell(value, createdAt, flash) {
-  // ===== YOUR TURN =====
-  // Right now this just prints the raw value ("A"). Turn it into a real message:
-  //   "A" -> "Someone is at the door!"   "B" -> ...   "C" -> ...
-  // =====================
-  let message = "Button " + value + " was pressed";
+  // Each button value gets its own sentence. Change the words if you want!
+  const messages = {
+    "A": "🔔 Someone is at the door!",
+    "B": "📦 Package delivered!",
+    "C": "🙅 Go away!"
+  };
+  let message = messages[value] || ("Button " + value + " was pressed");
 
   document.getElementById("doorbellStatus").textContent = message;
   document.getElementById("doorbellTime").textContent = "at " + new Date(createdAt).toLocaleTimeString();
@@ -132,6 +154,7 @@ function showDoorbell(value, createdAt, flash) {
     card.classList.remove("flash");
     void card.offsetWidth;               // restart the animation
     card.classList.add("flash");
+    beep();
   }
 }
 
