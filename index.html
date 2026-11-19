@@ -15,7 +15,7 @@
   body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, sans-serif;
          -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 920px; margin: 0 auto; padding: 52px 20px 48px; }
-
+ 
   /* ---------- Header ---------- */
   header { text-align: center; margin-bottom: 36px; }
   .kicker { font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
@@ -31,20 +31,21 @@
   .account { font-size: .8rem; color: var(--muted); }
   .account a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 640px) { h1 { font-size: 2.1rem; } }
-
+ 
   /* ---------- Now playing ---------- */
-  .now { display: flex; align-items: center; gap: 24px; background: var(--card); border: 1px solid var(--line);
-         border-radius: 24px; padding: 26px 30px; box-shadow: 0 12px 32px rgba(43,38,34,.05); margin-bottom: 34px; }
-  .orb { width: 104px; height: 104px; border-radius: 50%; background: #e9e3da; flex-shrink: 0;
+  .now { position: sticky; top: 10px; z-index: 5; display: flex; align-items: center; gap: 24px; background: var(--card);
+         border: 1px solid var(--line); border-radius: 24px; padding: 22px 28px; box-shadow: 0 12px 32px rgba(43,38,34,.08); margin-bottom: 34px; }
+  .orb { width: 96px; height: 96px; border-radius: 50%; background: #e9e3da; flex-shrink: 0;
          transition: background .5s ease, box-shadow .5s ease; }
   .now-info { flex: 1; min-width: 0; }
   .label { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-  .now-title { font-family: Fraunces, Georgia, serif; font-size: 1.8rem; margin: 6px 0 4px; }
+  .now-title { font-family: Fraunces, Georgia, serif; font-size: 1.7rem; margin: 6px 0 4px; }
   .now-sub { color: var(--muted); font-size: .85rem; min-height: 1.2em; }
   .bar { height: 4px; background: var(--line); border-radius: 999px; margin-top: 14px; overflow: hidden; }
   .bar-fill { height: 100%; width: 0; background: var(--sage); border-radius: 999px; }
-
-  /* Orb looks */
+  @media (max-width: 560px) { .now { gap: 16px; padding: 16px 18px; } .orb { width: 64px; height: 64px; } .now-title { font-size: 1.3rem; } }
+ 
+  /* ---------- Orb looks ---------- */
   @keyframes spin { to { transform: rotate(360deg); } }
   .orb.rainbow, .orb.rainbow-still { background: conic-gradient(#ff6b6b, #ffb84d, #ffe66d, #7ee081, #5ec8ff, #8b7bff, #ff7bd5, #ff6b6b);
                                       box-shadow: 0 0 40px rgba(255,150,200,.55); }
@@ -67,31 +68,47 @@
                         50% { background: linear-gradient(90deg, #e9e3da 50%, #ffbe00 50%); } }
   .orb.ice { animation: ice .3s steps(1) infinite; box-shadow: 0 0 40px rgba(120,220,255,.6); }
   @keyframes ice { 0% { background: #78dcff; } 50% { background: #ffffff; } }
+  .orb.coffee { animation: coffee .5s steps(1) infinite; box-shadow: 0 0 40px rgba(255,150,60,.5); }
+  @keyframes coffee { 0% { background: #ff9640; } 50% { background: #ffdcaa; } }
+  .orb.matrix { animation: matrixg .4s steps(1) infinite; box-shadow: 0 0 40px rgba(0,255,70,.45); }
+  @keyframes matrixg { 0% { background: #00ff46; } 50% { background: #0a7a2f; } }
+  .orb.boom { animation: boom .35s steps(1) infinite; box-shadow: 0 0 50px rgba(255,90,0,.6); }
+  @keyframes boom { 0% { background: #e5675a; } 50% { background: #2b2622; } }
+  .orb.scary { animation: scary .2s steps(1) infinite; box-shadow: 0 0 50px rgba(229,103,90,.7); }
+  @keyframes scary { 0% { background: #e5675a; } 50% { background: #ffffff; } }
+  .orb.mystic { background: radial-gradient(circle at 35% 35%, #d9b8ff, #8c00ff 60%, #3b0070);
+                animation: pulse 1.2s ease-in-out infinite; box-shadow: 0 0 40px rgba(140,0,255,.5); }
+  @keyframes pulse { 50% { transform: scale(1.06); box-shadow: 0 0 60px rgba(140,0,255,.75); } }
   .orb.sunset { background: linear-gradient(135deg, #ff7a4d, #f0568c, #6e44b8); box-shadow: 0 0 40px rgba(240,86,140,.5); }
   .orb.ocean  { background: linear-gradient(135deg, #0a5cad, #14b8c4); box-shadow: 0 0 40px rgba(20,184,196,.5); }
   .orb.ringing { animation: ring .9s ease infinite; }
   @keyframes ring { 0% { outline: 0 solid rgba(143,166,138,.55); } 100% { outline: 18px solid rgba(143,166,138,0); } }
-
+ 
   /* ---------- Sections ---------- */
-  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 30px 0 14px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 34px 0 14px; flex-wrap: wrap; }
   h2 { font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 1.5rem; margin: 0; }
   .section-note { color: var(--muted); font-size: .82rem; }
-
+ 
   /* Color dots */
-  .colors { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px; }
   .dots { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 12px; margin-bottom: 20px; }
   .dot-btn { background: none; border: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center;
              gap: 8px; font: inherit; font-size: .8rem; color: var(--muted); }
   .swatch { width: 50px; height: 50px; border-radius: 50%; border: 3px solid var(--card);
             box-shadow: 0 0 0 1px var(--line); transition: transform .2s; }
   .dot-btn:hover .swatch { transform: translateY(-3px); }
-  .picker { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 999px;
-            padding: 6px 6px 6px 16px; background: var(--bg); }
-  .picker span { font-size: .88rem; color: var(--muted); }
+  .pill-row { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 999px;
+              padding: 6px 6px 6px 16px; background: var(--bg); }
+  .pill-row span { font-size: .88rem; color: var(--muted); white-space: nowrap; }
   input[type=color] { width: 32px; height: 32px; border: 0; padding: 0; background: none; cursor: pointer; }
-  .picker button { margin-left: auto; border: 0; border-radius: 999px; padding: 10px 20px; background: var(--text);
-                   color: var(--card); font: inherit; font-size: .88rem; font-weight: 500; cursor: pointer; }
-
+  .pill-row input[type=text] { flex: 1; min-width: 0; border: 0; background: none; font: inherit; font-size: .95rem; color: var(--text); outline: none; }
+  .pill-row button { margin-left: auto; border: 0; border-radius: 999px; padding: 10px 20px; background: var(--text);
+                     color: var(--card); font: inherit; font-size: .88rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
+ 
+  /* Message card */
+  .message-card { margin-bottom: 14px; }
+  .message-card .hint { color: var(--muted); font-size: .82rem; margin: 10px 4px 0; }
+ 
   /* Tiles */
   .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
   .tile { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; text-align: left;
@@ -102,8 +119,9 @@
   .tile .t-name { font-family: Fraunces, Georgia, serif; font-size: 1.15rem; }
   .tile .t-tag { color: var(--muted); font-size: .8rem; }
   .tile.special { background: linear-gradient(135deg, #e6f6ff, #fff0e6); border-color: #ffd9c2; }
+  .tile.wild    { background: linear-gradient(135deg, #f4ecff, #ffeef4); border-color: #ecd9f7; }
   button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
-
+ 
   #errors { color: var(--bad); text-align: center; margin-top: 22px; font-size: .88rem; white-space: pre-wrap; }
   footer { text-align: center; margin-top: 40px; color: var(--muted); font-size: .8rem; line-height: 1.8; }
   .flow { font-family: Fraunces, Georgia, serif; font-style: italic; font-size: .95rem; color: var(--text); }
@@ -111,18 +129,18 @@
 </head>
 <body>
 <div class="wrap">
-
+ 
   <header>
     <div class="kicker">Smart Home · IoT Project</div>
     <h1>Brielle and Harper's <em>Remote Lamp!</em></h1>
-    <div class="sub">Lights and music on an Arduino, controlled from anywhere</div>
+    <div class="sub">Lights, music and pictures on an Arduino, controlled from anywhere</div>
     <div class="status-row">
       <div class="pill" id="connPill"><span class="dot"></span><span id="connText">Connecting…</span></div>
       <div class="account">Account <span id="whoami">?</span> · <a href="#" id="changeKey">change key</a></div>
     </div>
   </header>
-
-  <!-- Now playing -->
+ 
+  <!-- Now playing (sticks to the top while you scroll) -->
   <div class="now">
     <div class="orb" id="lampOrb"></div>
     <div class="now-info">
@@ -132,45 +150,59 @@
       <div class="bar"><div class="bar-fill" id="barFill"></div></div>
     </div>
   </div>
-
+ 
   <div class="section-head"><h2>School spirit</h2><span class="section-note">Watch the board too!</span></div>
   <div class="tiles" id="spirit"></div>
-
+ 
+  <div class="section-head"><h2>Mind blowers</h2><span class="section-note">Prepare to be amazed</span></div>
+  <div class="panel message-card">
+    <div class="pill-row">
+      <span>💬 Message</span>
+      <input type="text" id="msgInput" maxlength="40" placeholder="Type anything…" autocomplete="off">
+      <button id="msgSend" onclick="sendMessage()">Show on board</button>
+    </div>
+    <div class="hint">Your words scroll across the Arduino's light grid. Up to 40 letters.</div>
+  </div>
+  <div class="tiles" id="wild"></div>
+ 
+  <div class="section-head"><h2>Random fun</h2><span class="section-note">Nobody knows what happens next</span></div>
+  <div class="tiles" id="random"></div>
+ 
   <!-- Colors -->
   <div class="section-head"><h2>Colors</h2><span class="section-note">Solid light</span></div>
-  <div class="colors">
+  <div class="panel">
     <div class="dots" id="dots"></div>
-    <div class="picker">
+    <div class="pill-row">
       <span>Custom color</span>
       <input type="color" id="colorPicker" value="#e8a0bf" aria-label="Pick a color">
       <button id="sendCustom" onclick="sendColor()">Send</button>
     </div>
   </div>
-
-  <div class="section-head"><h2>Light shows</h2><span class="section-note">Colors only</span></div>
+ 
+  <div class="section-head"><h2>Light shows</h2><span class="section-note">Lights + music + pictures on the board</span></div>
   <div class="tiles" id="shows"></div>
-
-  <div class="section-head"><h2>Songs</h2><span class="section-note">Sound only</span></div>
+ 
+  <div class="section-head"><h2>Songs</h2><span class="section-note">Sound + a picture on the board</span></div>
   <div class="tiles" id="songs"></div>
-
+ 
   <div class="section-head"><h2>Songs + lights</h2><span class="section-note">The full show</span></div>
   <div class="tiles" id="combos"></div>
-
+ 
   <div id="errors"></div>
-
+ 
   <footer>
-    <div class="flow">this website → adafruit io → arduino → lights &amp; music</div>
+    <div class="flow">this website → adafruit io → arduino → lights, music &amp; pictures</div>
     <div>Buttons pause while something is playing so the Arduino can keep up.</div>
   </footer>
 </div>
-
+ 
 <script>
 /* =====================================================================
    SETTINGS
    ===================================================================== */
 const IO_USERNAME = "HarperBri";   // your Adafruit IO username (don't change this!)
 const LAMP_FEED   = "lamp";        // feed the Arduino listens to
-
+ 
 /* =====================================================================
    YOUR KEY IS NOT IN THIS FILE ON PURPOSE.
    This page is public on GitHub. The page asks for your key once and
@@ -190,25 +222,71 @@ document.getElementById("changeKey").onclick = (e) => {
   try { localStorage.removeItem("aio_key"); } catch (e2) {}
   location.reload();
 };
-
+ 
 const IO_KEY = getKey();
 document.getElementById("whoami").textContent = IO_USERNAME;
 const BASE = `https://io.adafruit.com/api/v2/${IO_USERNAME}/feeds/`;
-
+ 
 /* =====================================================================
    EVERYTHING THE LAMP CAN DO
-   v    = the value sent to the Arduino (must match the Arduino code)
-   ms   = how long it plays (buttons pause this long)
-   look = what the circle at the top shows while playing
-   after= what the circle shows when it's done
+   v     = the value sent to the Arduino (must match the Arduino code)
+   ms    = how long it plays (buttons pause this long)
+   look  = what the circle at the top shows while playing
+   after = what the circle shows when it's done
+   make  = (optional) picks a random result right before sending
    ===================================================================== */
 const SPIRIT = [
-  { v: "acton",    e: "🏫", n: "ACTON",          tag: "School colors + siren + ACTON on the board", ms: 3400,  look: "acton",    after: "acton-still" },
-  { v: "sixseven", e: "🤲", n: "67",             tag: "67 on the board + the 67 motion",           ms: 3200,  look: "sixseven", after: null },
-  { v: "preston",  e: "🎧", n: "Preston's Jam",  tag: "Original beat + ice lights",                ms: 7000,  look: "ice",      after: "#78dcff" },
-  { v: "ballgame", e: "⚾", n: "Take Me Out to the Ball Game", tag: "Neon blue & orange",           ms: 13600, look: "school",   after: "acton-still" }
+  { v: "acton",    e: "🏫", n: "ACTON",         tag: "School colors + siren + ACTON on the board", ms: 3400, look: "acton",    after: "acton-still" },
+  { v: "sixseven", e: "🤲", n: "67",            tag: "67 on the board + the 67 motion",           ms: 3200, look: "sixseven", after: null },
+  { v: "preston",  e: "🎧", n: "Preston's Jam", tag: "Original beat + headphones on the board",   ms: 7000, look: "ice",      after: "#78dcff" }
 ];
-
+ 
+const WILD = [
+  { v: "bomb",      e: "💣", n: "Bomb Countdown", tag: "10… 9… 8… BOOM",                 ms: 5400, look: "boom",    after: null },
+  { v: "fireworks", e: "🎆", n: "Fireworks",      tag: "Rockets shoot up and explode",   ms: 3600, look: "party",   after: null },
+  { v: "jumpscare", e: "😱", n: "Jumpscare",      tag: "Wait for it…",                   ms: 4400, look: null,      after: null, scare: true },
+  { v: "invaders",  e: "👾", n: "Space Invaders", tag: "Pew pew! Blast the alien",       ms: 3600, look: "matrix",  after: null }
+];
+ 
+const FORTUNES = [
+  "YOU WILL ACE THIS",
+  "BEWARE OF MONDAYS",
+  "PIZZA IS IN YOUR FUTURE",
+  "A NAP AWAITS YOU",
+  "YOU ARE THE MAIN CHARACTER",
+  "SOMEONE WILL SAY 67 TODAY",
+  "GREAT THINGS ARE COMING",
+  "YOUR CRUSH IS THINKING OF YOU",
+  "AVOID THE CAFETERIA TACOS",
+  "YOU WILL FIND A LOST SOCK"
+];
+ 
+const RANDOM = [
+  { e: "🎰", n: "Slot Machine", tag: "3 in a row = JACKPOT", ms: 3700, look: "party", after: null,
+    make: () => {
+      const syms = "7$#";
+      let s = "";
+      if (Math.random() < 0.3) {                       // 30% chance of a jackpot
+        const c = syms[Math.floor(Math.random() * 3)];
+        s = c + c + c;
+      } else {
+        for (let k = 0; k < 3; k++) s += syms[Math.floor(Math.random() * 3)];
+      }
+      const win = s[0] === s[1] && s[1] === s[2];
+      return { v: "slots:" + s, result: win ? "🎰 JACKPOT!! " + s.split("").join(" ") : "🎰 " + s.split("").join(" ") + " · so close!" };
+    } },
+  { e: "🎲", n: "Roll the Dice", tag: "Lands on a random number", ms: 3200, look: "#ffbe00", after: null,
+    make: () => {
+      const n = 1 + Math.floor(Math.random() * 6);
+      return { v: "dice:" + n, result: "🎲 You rolled a " + n + "!" };
+    } },
+  { e: "🔮", n: "Fortune Teller", tag: "Your future scrolls across the board", ms: 8000, look: "mystic", after: null,
+    make: () => {
+      const f = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
+      return { v: "fortune:" + f, ms: ((f.length + 6) * 6 + 12) * 50 + 1400, result: "🔮 " + f };
+    } }
+];
+ 
 const COLORS = [
   { v: "red",    n: "Red",    look: "#e5675a" },
   { v: "green",  n: "Green",  look: "#6fb27a" },
@@ -219,41 +297,47 @@ const COLORS = [
   { v: "warm",   n: "Warm",   look: "#f2b46b" },
   { v: "off",    n: "Off",    look: null }
 ];
-
+ 
 const SHOWS = [
-  { v: "rainbow", e: "🌈", n: "Rainbow", tag: "Spinning rainbow", ms: 2600, look: "rainbow", after: "rainbow-still" },
-  { v: "party",   e: "🎉", n: "Party",   tag: "Random flashing",  ms: 2600, look: "party",   after: "rainbow-still" },
-  { v: "sunset",  e: "🌅", n: "Sunset",  tag: "Orange to purple", ms: 2000, look: "sunset" },
-  { v: "ocean",   e: "🌊", n: "Ocean",   tag: "Blues and teals",  ms: 2000, look: "ocean" }
+  { v: "rainbow",  e: "🌈", n: "Rainbow",      tag: "Rainbow scale + rainbow on the board",   ms: 3200,  look: "rainbow", after: "rainbow-still" },
+  { v: "party",    e: "🎉", n: "Party",        tag: "Party riff + confetti on the board",     ms: 4000,  look: "party",   after: "rainbow-still" },
+  { v: "sunset",   e: "🌅", n: "Sunset",       tag: "Calm tune + the sun sets on the board",  ms: 4000,  look: "sunset" },
+  { v: "ocean",    e: "🌊", n: "Ocean",        tag: "Wave tune + waves on the board",         ms: 4000,  look: "ocean" },
+  { v: "ballgame", e: "⚾", n: "Take Me Out to the Ball Game", tag: "School colors + a baseball on the board", ms: 13600, look: "school", after: "acton-still" },
+  { v: "rain",     e: "🌧️", n: "Digital Rain", tag: "Hacker code rains down the board",       ms: 2900,  look: "matrix",  after: null },
+  { v: "emoji",    e: "😉", n: "Wink",         tag: "A smiley face winks at you",             ms: 2000,  look: "#ffb400", after: null }
 ];
-
+ 
 const SONGS = [
-  { v: "twinkle",  e: "⭐", n: "Twinkle Twinkle", tag: "Little star",    ms: 5500, sound: true },
-  { v: "ode",      e: "🎻", n: "Ode to Joy",      tag: "Beethoven",      ms: 5500, sound: true },
-  { v: "dingdong", e: "🔔", n: "Ding Dong",       tag: "Doorbell chime", ms: 1600, sound: true },
-  { v: "beep",     e: "🎵", n: "Beep",            tag: "One quick note", ms: 1000, sound: true }
+  { v: "twinkle",  e: "⭐", n: "Twinkle Twinkle", tag: "A twinkling star on the board",  ms: 5600, sound: true },
+  { v: "ode",      e: "🎻", n: "Ode to Joy",      tag: "Bouncing music notes",           ms: 5600, sound: true },
+  { v: "dingdong", e: "🔔", n: "Ding Dong",       tag: "A swinging bell",                ms: 1700, sound: true },
+  { v: "beep",     e: "🎵", n: "Beep",            tag: "One quick note",                 ms: 1000, sound: true }
 ];
-
+ 
 const COMBOS = [
-  { v: "jingle",   e: "🎄", n: "Jingle Bells",   tag: "Red & green flashing", ms: 9000,  look: "xmas",   after: "#6fb27a" },
-  { v: "birthday", e: "🎂", n: "Happy Birthday", tag: "Rainbow party",        ms: 11000, look: "party",  after: "rainbow-still" },
-  { v: "police",   e: "🚨", n: "Police Siren",   tag: "Red & blue + siren",   ms: 2600,  look: "police", after: null },
-  { v: "levelup",  e: "🍄", n: "Level Up",       tag: "Video game power-up",  ms: 1400,  look: "#6fb27a" }
+  { v: "jingle",   e: "🎄", n: "Jingle Bells",   tag: "Red & green + a Christmas tree",   ms: 9300,  look: "xmas",   after: "#6fb27a" },
+  { v: "birthday", e: "🎂", n: "Happy Birthday", tag: "Rainbow party + a birthday cake",  ms: 11300, look: "party",  after: "rainbow-still" },
+  { v: "coffee",   e: "☕", n: "Coffee Break",   tag: "Original 90s sitcom vibes + a coffee cup", ms: 5500, look: "coffee", after: "#ff9640" },
+  { v: "police",   e: "🚨", n: "Police Siren",   tag: "Red & blue + siren",               ms: 2600,  look: "police", after: null },
+  { v: "levelup",  e: "🍄", n: "Level Up",       tag: "Power-up + an arrow shooting up",  ms: 1700,  look: "#6fb27a" }
 ];
-
+ 
 /* ---------- Build the buttons ---------- */
-function makeTile(item, special) {
+function makeTile(item, style) {
   const b = document.createElement("button");
-  b.className = special ? "tile special" : "tile";
+  b.className = style ? "tile " + style : "tile";
   b.innerHTML = `<span class="emoji">${item.e}</span><span class="t-name">${item.n}</span><span class="t-tag">${item.tag}</span>`;
   b.onclick = () => play(item);
   return b;
 }
-SPIRIT.forEach(i => document.getElementById("spirit").appendChild(makeTile(i, true)));
+SPIRIT.forEach(i => document.getElementById("spirit").appendChild(makeTile(i, "special")));
+WILD.forEach(i => document.getElementById("wild").appendChild(makeTile(i, "wild")));
+RANDOM.forEach(i => document.getElementById("random").appendChild(makeTile(i, "wild")));
 SHOWS.forEach(i => document.getElementById("shows").appendChild(makeTile(i)));
 SONGS.forEach(i => document.getElementById("songs").appendChild(makeTile(i)));
 COMBOS.forEach(i => document.getElementById("combos").appendChild(makeTile(i)));
-
+ 
 COLORS.forEach(c => {
   const b = document.createElement("button");
   b.className = "dot-btn";
@@ -261,7 +345,7 @@ COLORS.forEach(c => {
   b.onclick = () => play({ v: c.v, n: c.n, tag: "Solid color", ms: 2000, look: c.look });
   document.getElementById("dots").appendChild(b);
 });
-
+ 
 /* ---------- Connection status ---------- */
 function setConnected(ok, text) {
   const pill = document.getElementById("connPill");
@@ -288,10 +372,10 @@ async function checkConnection() {
     showError("Could not reach Adafruit IO: " + err.message);
   }
 }
-
+ 
 /* ---------- The circle at the top ---------- */
 const orb = document.getElementById("lampOrb");
-
+ 
 function setOrb(look) {
   orb.className = "orb";
   orb.style.background = "";
@@ -304,12 +388,13 @@ function setOrb(look) {
     orb.classList.add(look);                  // animated / gradient looks
   }
 }
-
+ 
 /* ---------- Pause buttons while something plays ---------- */
 let busy = false;
+const ALL_BUTTONS = ".tile, .dot-btn, #sendCustom, #msgSend";
 function setBusy(ms) {
   busy = true;
-  document.querySelectorAll(".tile, .dot-btn, #sendCustom").forEach(b => b.disabled = true);
+  document.querySelectorAll(ALL_BUTTONS).forEach(b => b.disabled = true);
   const bar = document.getElementById("barFill");
   bar.style.transition = "none";
   bar.style.width = "0";
@@ -318,12 +403,12 @@ function setBusy(ms) {
   bar.style.width = "100%";
   setTimeout(() => {
     busy = false;
-    document.querySelectorAll(".tile, .dot-btn, #sendCustom").forEach(b => b.disabled = false);
+    document.querySelectorAll(ALL_BUTTONS).forEach(b => b.disabled = false);
     bar.style.transition = "none";
     bar.style.width = "0";
   }, ms);
 }
-
+ 
 /* ---------- Send to Adafruit IO ---------- */
 async function sendLamp(value) {
   try {
@@ -341,30 +426,53 @@ async function sendLamp(value) {
     return false;
   }
 }
-
+ 
 async function play(item) {
   if (busy) return;
-  document.getElementById("nowSub").textContent = "Sending…";
-  const ok = await sendLamp(item.v);
-  if (!ok) { document.getElementById("nowSub").textContent = "Didn't send. See the message below."; return; }
-
+  const nowSub = document.getElementById("nowSub");
+ 
+  // Some buttons pick a random result first (dice, slots, fortune)
+  let value = item.v, ms = item.ms, result = null;
+  if (item.make) {
+    const d = item.make();
+    value = d.v;
+    if (d.ms) ms = d.ms;
+    result = d.result;
+  }
+ 
+  nowSub.textContent = "Sending…";
+  const ok = await sendLamp(value);
+  if (!ok) { nowSub.textContent = "Didn't send. See the message below."; return; }
+ 
   document.getElementById("nowTitle").textContent = item.n;
-  document.getElementById("nowSub").textContent = item.tag + " · " + new Date().toLocaleTimeString();
-  setBusy(item.ms);
-
+  nowSub.textContent = item.tag + " · " + new Date().toLocaleTimeString();
+  setBusy(ms);
+ 
+  if (result) {
+    setTimeout(() => { nowSub.textContent = result; }, ms);
+  }
+ 
   if (item.sound) {
     // Sound only: keep the same light, just pulse the circle
     orb.classList.add("ringing");
-    setTimeout(() => orb.classList.remove("ringing"), item.ms);
+    setTimeout(() => orb.classList.remove("ringing"), ms);
     return;
   }
-
+ 
+  if (item.scare) {
+    // Jumpscare: stay dark, then flash at the same moment as the Arduino
+    setOrb(null);
+    setTimeout(() => setOrb("scary"), 2500);
+    setTimeout(() => setOrb(null), ms);
+    return;
+  }
+ 
   setOrb(item.look);
   if (item.after !== undefined) {
-    setTimeout(() => setOrb(item.after), item.ms);
+    setTimeout(() => setOrb(item.after), ms);
   }
 }
-
+ 
 // Custom color: turns the picker's "#rrggbb" into "r,g,b" and sends it.
 function sendColor() {
   const hex = document.getElementById("colorPicker").value;
@@ -373,10 +481,27 @@ function sendColor() {
   const b = parseInt(hex.substring(5, 7), 16);
   play({ v: r + "," + g + "," + b, n: "Custom color", tag: hex.toUpperCase(), ms: 2000, look: hex });
 }
-
+ 
+// Message: scrolls whatever you type across the Arduino's light grid.
+function sendMessage() {
+  const input = document.getElementById("msgInput");
+  const text = input.value.replace(/[^\x20-\x7E]/g, "").trim().slice(0, 40);   // plain letters/numbers/symbols only
+  if (!text) {
+    document.getElementById("nowSub").textContent = "Type something first! (Emojis can't show on the board.)";
+    return;
+  }
+  play({ v: "msg:" + text, n: "Message", tag: "\u201C" + text + "\u201D", ms: ((text.length + 6) * 6 + 12) * 55 + 1000,
+         look: "party", after: "rainbow-still" });
+  input.value = "";
+}
+document.getElementById("msgInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+ 
 /* ---------- start ---------- */
 checkConnection();
 setInterval(checkConnection, 15000);
 </script>
 </body>
 </html>
+ 
