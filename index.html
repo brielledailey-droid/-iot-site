@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Brielle's Remote Lamp</title>
+<title>Brielle and Harper's Remote Lamp!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -19,7 +19,7 @@
   /* ---------- Header ---------- */
   header { text-align: center; margin-bottom: 36px; }
   .kicker { font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-  h1 { font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 3rem; margin: 10px 0 8px; letter-spacing: -.02em; }
+  h1 { font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 2.8rem; margin: 10px 0 8px; letter-spacing: -.02em; line-height: 1.1; }
   h1 em { color: var(--sage); }
   .sub { color: var(--muted); font-size: .95rem; }
   .status-row { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
@@ -30,7 +30,7 @@
   .pill.bad .dot { background: var(--bad); box-shadow: 0 0 0 4px #f6dcd8; }
   .account { font-size: .8rem; color: var(--muted); }
   .account a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-  @media (max-width: 640px) { h1 { font-size: 2.3rem; } }
+  @media (max-width: 640px) { h1 { font-size: 2.1rem; } }
 
   /* ---------- Now playing ---------- */
   .now { display: flex; align-items: center; gap: 24px; background: var(--card); border: 1px solid var(--line);
@@ -56,6 +56,17 @@
   .orb.police { animation: police .5s steps(1) infinite; box-shadow: 0 0 40px rgba(106,158,216,.5); }
   @keyframes police { 0% { background: linear-gradient(90deg, #e5675a 50%, #6a9ed8 50%); }
                       50% { background: linear-gradient(90deg, #6a9ed8 50%, #e5675a 50%); } }
+  .orb.acton { animation: acton .6s steps(1) infinite; box-shadow: 0 0 40px rgba(0,170,255,.5); }
+  @keyframes acton { 0% { background: linear-gradient(90deg, #00aaff 50%, #ff5a00 50%); }
+                     50% { background: linear-gradient(90deg, #ff5a00 50%, #00aaff 50%); } }
+  .orb.acton-still { background: linear-gradient(90deg, #00aaff 50%, #ff5a00 50%); box-shadow: 0 0 40px rgba(255,90,0,.4); }
+  .orb.school { animation: school .55s steps(1) infinite; box-shadow: 0 0 40px rgba(0,170,255,.45); }
+  @keyframes school { 0% { background: #00aaff; } 50% { background: #ff5a00; } }
+  .orb.sixseven { animation: sixseven .7s steps(1) infinite; box-shadow: 0 0 40px rgba(255,190,0,.5); }
+  @keyframes sixseven { 0% { background: linear-gradient(90deg, #ffbe00 50%, #e9e3da 50%); }
+                        50% { background: linear-gradient(90deg, #e9e3da 50%, #ffbe00 50%); } }
+  .orb.ice { animation: ice .3s steps(1) infinite; box-shadow: 0 0 40px rgba(120,220,255,.6); }
+  @keyframes ice { 0% { background: #78dcff; } 50% { background: #ffffff; } }
   .orb.sunset { background: linear-gradient(135deg, #ff7a4d, #f0568c, #6e44b8); box-shadow: 0 0 40px rgba(240,86,140,.5); }
   .orb.ocean  { background: linear-gradient(135deg, #0a5cad, #14b8c4); box-shadow: 0 0 40px rgba(20,184,196,.5); }
   .orb.ringing { animation: ring .9s ease infinite; }
@@ -90,6 +101,7 @@
   .tile .emoji { font-size: 1.8rem; }
   .tile .t-name { font-family: Fraunces, Georgia, serif; font-size: 1.15rem; }
   .tile .t-tag { color: var(--muted); font-size: .8rem; }
+  .tile.special { background: linear-gradient(135deg, #e6f6ff, #fff0e6); border-color: #ffd9c2; }
   button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
   #errors { color: var(--bad); text-align: center; margin-top: 22px; font-size: .88rem; white-space: pre-wrap; }
@@ -102,7 +114,7 @@
 
   <header>
     <div class="kicker">Smart Home · IoT Project</div>
-    <h1>Brielle's <em>Remote Lamp</em></h1>
+    <h1>Brielle and Harper's <em>Remote Lamp!</em></h1>
     <div class="sub">Lights and music on an Arduino, controlled from anywhere</div>
     <div class="status-row">
       <div class="pill" id="connPill"><span class="dot"></span><span id="connText">Connecting…</span></div>
@@ -120,6 +132,9 @@
       <div class="bar"><div class="bar-fill" id="barFill"></div></div>
     </div>
   </div>
+
+  <div class="section-head"><h2>School spirit</h2><span class="section-note">Watch the board too!</span></div>
+  <div class="tiles" id="spirit"></div>
 
   <!-- Colors -->
   <div class="section-head"><h2>Colors</h2><span class="section-note">Solid light</span></div>
@@ -187,6 +202,13 @@ const BASE = `https://io.adafruit.com/api/v2/${IO_USERNAME}/feeds/`;
    look = what the circle at the top shows while playing
    after= what the circle shows when it's done
    ===================================================================== */
+const SPIRIT = [
+  { v: "acton",    e: "🏫", n: "ACTON",          tag: "School colors + siren + ACTON on the board", ms: 3400,  look: "acton",    after: "acton-still" },
+  { v: "sixseven", e: "🤲", n: "67",             tag: "67 on the board + the 67 motion",           ms: 3200,  look: "sixseven", after: null },
+  { v: "preston",  e: "🎧", n: "Preston's Jam",  tag: "Original beat + ice lights",                ms: 7000,  look: "ice",      after: "#78dcff" },
+  { v: "ballgame", e: "⚾", n: "Take Me Out to the Ball Game", tag: "Neon blue & orange",           ms: 13600, look: "school",   after: "acton-still" }
+];
+
 const COLORS = [
   { v: "red",    n: "Red",    look: "#e5675a" },
   { v: "green",  n: "Green",  look: "#6fb27a" },
@@ -199,17 +221,17 @@ const COLORS = [
 ];
 
 const SHOWS = [
-  { v: "rainbow", e: "🌈", n: "Rainbow",   tag: "Spinning rainbow",     ms: 2600, look: "rainbow", after: "rainbow-still" },
-  { v: "party",   e: "🎉", n: "Party",     tag: "Random flashing",      ms: 2600, look: "party",   after: "rainbow-still" },
-  { v: "sunset",  e: "🌅", n: "Sunset",    tag: "Orange to purple",     ms: 2000, look: "sunset" },
-  { v: "ocean",   e: "🌊", n: "Ocean",     tag: "Blues and teals",      ms: 2000, look: "ocean" }
+  { v: "rainbow", e: "🌈", n: "Rainbow", tag: "Spinning rainbow", ms: 2600, look: "rainbow", after: "rainbow-still" },
+  { v: "party",   e: "🎉", n: "Party",   tag: "Random flashing",  ms: 2600, look: "party",   after: "rainbow-still" },
+  { v: "sunset",  e: "🌅", n: "Sunset",  tag: "Orange to purple", ms: 2000, look: "sunset" },
+  { v: "ocean",   e: "🌊", n: "Ocean",   tag: "Blues and teals",  ms: 2000, look: "ocean" }
 ];
 
 const SONGS = [
-  { v: "twinkle",  e: "⭐", n: "Twinkle Twinkle", tag: "Little star",        ms: 5500, sound: true },
-  { v: "ode",      e: "🎻", n: "Ode to Joy",      tag: "Beethoven",          ms: 5500, sound: true },
-  { v: "dingdong", e: "🔔", n: "Ding Dong",       tag: "Doorbell chime",     ms: 1600, sound: true },
-  { v: "beep",     e: "🎵", n: "Beep",            tag: "One quick note",     ms: 1000, sound: true }
+  { v: "twinkle",  e: "⭐", n: "Twinkle Twinkle", tag: "Little star",    ms: 5500, sound: true },
+  { v: "ode",      e: "🎻", n: "Ode to Joy",      tag: "Beethoven",      ms: 5500, sound: true },
+  { v: "dingdong", e: "🔔", n: "Ding Dong",       tag: "Doorbell chime", ms: 1600, sound: true },
+  { v: "beep",     e: "🎵", n: "Beep",            tag: "One quick note", ms: 1000, sound: true }
 ];
 
 const COMBOS = [
@@ -220,13 +242,14 @@ const COMBOS = [
 ];
 
 /* ---------- Build the buttons ---------- */
-function makeTile(item) {
+function makeTile(item, special) {
   const b = document.createElement("button");
-  b.className = "tile";
+  b.className = special ? "tile special" : "tile";
   b.innerHTML = `<span class="emoji">${item.e}</span><span class="t-name">${item.n}</span><span class="t-tag">${item.tag}</span>`;
   b.onclick = () => play(item);
   return b;
 }
+SPIRIT.forEach(i => document.getElementById("spirit").appendChild(makeTile(i, true)));
 SHOWS.forEach(i => document.getElementById("shows").appendChild(makeTile(i)));
 SONGS.forEach(i => document.getElementById("songs").appendChild(makeTile(i)));
 COMBOS.forEach(i => document.getElementById("combos").appendChild(makeTile(i)));
@@ -268,13 +291,11 @@ async function checkConnection() {
 
 /* ---------- The circle at the top ---------- */
 const orb = document.getElementById("lampOrb");
-let currentLook = null;
 
 function setOrb(look) {
   orb.className = "orb";
   orb.style.background = "";
   orb.style.boxShadow = "";
-  currentLook = look;
   if (!look) return;                         // off
   if (look.startsWith("#")) {
     orb.style.background = look;
